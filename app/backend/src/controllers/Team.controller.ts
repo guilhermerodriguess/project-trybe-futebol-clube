@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import TeamService from '../service/Team.service';
+import TeamService from '../services/Team.service';
 
 export default class TeamController {
   static async getAll(_req: Request, res: Response) {
