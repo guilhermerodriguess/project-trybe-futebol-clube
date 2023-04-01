@@ -1,4 +1,4 @@
-export default interface IMatch {
+export interface IMatch {
   'id': number,
   'homeTeamId': number,
   'homeTeamGoals': number,
@@ -11,4 +11,17 @@ export default interface IMatch {
   'awayTeam': {
     'teamName': string
   }
+}
+
+export interface IUpdateMatch {
+  'awayTeamGoals': number,
+  'homeTeamGoals': number
+}
+
+export interface ICreateMatch {
+  'homeTeamId': number,
+  'awayTeamId': number,
+  'homeTeamGoals': number,
+  'awayTeamGoals': number,
+  'inProgress'?: boolean
 }
