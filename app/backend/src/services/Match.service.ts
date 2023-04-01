@@ -22,4 +22,9 @@ export default class MatchService {
     });
     return result;
   }
+
+  static async finishMatch(id: number) {
+    const response = await Match.update({ inProgress: false }, { where: { id } });
+    return response;
+  }
 }
