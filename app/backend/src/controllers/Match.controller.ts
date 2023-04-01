@@ -29,7 +29,8 @@ export default class MatchController {
 
   static async createMatch(req: Request, res: Response) {
     const { body } = req;
-    const result = await MatchService.createMatch(body);
-    res.status(201).json(result);
+    const response = await MatchService.createMatch(body);
+
+    res.status(201).json(response);
   }
 }

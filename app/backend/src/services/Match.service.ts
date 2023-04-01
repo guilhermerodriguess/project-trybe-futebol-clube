@@ -1,6 +1,7 @@
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 import { ICreateMatch, IUpdateMatch } from '../interfaces/Match';
+import HTTPError from '../helpers/HTTPError';
 
 export default class MatchService {
   static async getAll() {
@@ -35,19 +36,22 @@ export default class MatchService {
   }
 
   static async createMatch(body: ICreateMatch) {
-    const {
-      awayTeamGoals,
-      homeTeamGoals,
-      homeTeamId,
-      awayTeamId,
-    } = body;
-    const response = await Match.create({
-      awayTeamGoals,
-      awayTeamId,
-      homeTeamGoals,
-      homeTeamId,
-      inProgress: true,
-    });
+    const { awayTeamGoals, homeTeamGoals, homeTeamId, awayTeamId } = body;
+
+    if (homeTeamId === awayTeamId) {
+      throw new HTTPError(422, 'It is not possible to create a match with two equal teams');
+    }
+
+    const validateHomeTeam = await Team.findByPk(homeTeamId);
+    const validateAwayTeam = await Team.findByPk(awayTeamId);
+
+    if (!validateAwayTeam || !validateHomeTeam) {
+      throw new HTTPError(404, 'There is no team with such id!');
+    }
+
+    const response = await Match
+      .create({ awayTeamGoals, awayTeamId, homeTeamGoals, homeTeamId, inProgress: true,
+      });
     return response;
   }
 }

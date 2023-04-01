@@ -23,5 +23,5 @@ export interface ICreateMatch {
   'awayTeamId': number,
   'homeTeamGoals': number,
   'awayTeamGoals': number,
-  'inProgress'?: boolean
+  'inProgress'?: boolean,
 }
