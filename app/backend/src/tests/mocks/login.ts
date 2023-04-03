@@ -5,6 +5,12 @@ const findOne = {
   password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
 }
 
+const createToken = {
+  username: 'Admin',
+  role: 'admin',
+  email: 'admin@admin.com'
+}
+
 const loginEmailOff = {
   email: '',
   password: "secret_admin"
@@ -20,4 +26,9 @@ const loginWrong = {
   password: '123'
 }
 
-export { findOne, loginEmailOff, loginPasswordOff, loginWrong }
+const loginWright = {
+  email: 'admin@admin.com',
+  password: 'secret_admin'
+}
+
+export { findOne, loginEmailOff, loginPasswordOff, loginWrong, loginWright, createToken }
