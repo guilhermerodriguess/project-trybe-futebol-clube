@@ -1,5 +1,6 @@
 import ITeam from '../interfaces/Team';
 import Team from '../database/models/Team';
+import HTTPError from '../helpers/HTTPError';
 
 export default class TeamService {
   static async getAll(): Promise<ITeam[]> {
@@ -9,6 +10,7 @@ export default class TeamService {
 
   static async getTeamById(id: number) {
     const response = await Team.findByPk(id);
+    if (!response) throw new HTTPError(404, 'Team not found');
     return response;
   }
 }

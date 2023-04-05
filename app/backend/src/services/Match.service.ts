@@ -1,7 +1,9 @@
+import { Op } from 'sequelize';
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 import { ICreateMatch, IUpdateMatch } from '../interfaces/Match';
 import HTTPError from '../helpers/HTTPError';
+import { IMatchIndProg } from '../interfaces/Leaderboard';
 
 export default class MatchService {
   static async getAll() {
@@ -12,6 +14,30 @@ export default class MatchService {
       ],
     });
     return result;
+  }
+
+  static async getByTeamId(id: number, type = '') {
+    let matches: IMatchIndProg[];
+    if (type) {
+      matches = await Match.findAll({ where: { [`${type}Id`]: id, inProgress: false }, raw: true });
+    } else {
+      matches = await Match.findAll({ where: { inProgress: false }, raw: true });
+    }
+    return matches;
+  }
+
+  static async getByTeam(id: number) {
+    const matches = await Match.findAll({
+      where: {
+        inProgress: false,
+        [Op.or]: [
+          { homeTeamId: id },
+          { awayTeamId: id },
+        ],
+      },
+      raw: true,
+    });
+    return matches;
   }
 
   static async getMatchesByProgress(progress: boolean) {
